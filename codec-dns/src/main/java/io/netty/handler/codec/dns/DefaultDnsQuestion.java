@@ -29,7 +29,7 @@ public class DefaultDnsQuestion extends AbstractDnsRecord implements DnsQuestion
      * @param type the type of the DNS question
      */
     public DefaultDnsQuestion(String name, DnsRecordType type) {
-        super(name, type, 0);
+        super(removeTrailingDot(name), type, 0);
     }
 
     /**
@@ -48,7 +48,18 @@ public class DefaultDnsQuestion extends AbstractDnsRecord implements DnsQuestion
      *                 </ul>
      */
     public DefaultDnsQuestion(String name, DnsRecordType type, int dnsClass) {
-        super(name, type, dnsClass, 0);
+        super(removeTrailingDot(name), type, dnsClass, 0);
+    }
+
+    /**
+     * Remove trailing dot (if any) from given name and return it.
+     */
+    private static String removeTrailingDot(String name) {
+        int len = name.length();
+        if (len > 0 && name.charAt(len - 1) == '.') {
+            return name.substring(0, len - 1);
+        }
+        return name;
     }
 
     @Override
